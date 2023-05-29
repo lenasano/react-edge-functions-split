@@ -1,3 +1,5 @@
+import Bob from '../components/Bob'
+
 export default function App({ req, isCold }) {
   const parsedCity = decodeURIComponent(req.headers.get('x-vercel-ip-city'));
   // from vercel we get the string `null` when it can't decode the IP
@@ -15,7 +17,7 @@ export default function App({ req, isCold }) {
             <h1>
               <span>Hello from the edge!</span>
             </h1>
-
+            <Bob />
             <div class="info">
               <div class="block">
                 <div class="contents">
