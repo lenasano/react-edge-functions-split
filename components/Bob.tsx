@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-//import { sayHello } from '../api/helloBob.js';
 import { get as getSplitFlag } from '../api/split/flag';
 
 export default function Page() {
@@ -12,25 +11,6 @@ export default function Page() {
     getSplitFlag().then(res => data = res);
 
     console.log("done fetching... ?");
-
-    //if (error) return <div>{error.message}</div>;
-
-    /* useEffect(() => {
-        async function startFetching() {
-            setHello(null);
-            const result = await sayHello(person);
-            if (!ignore) {
-                setHello(result);
-                console.log(`set hello ${result}`)
-            }
-        }
-
-        let ignore = false;
-        startFetching();
-        return () => {
-            ignore = true;
-        }
-    }, [person]);*/
 
     return (
         <>
