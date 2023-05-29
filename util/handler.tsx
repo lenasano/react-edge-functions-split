@@ -9,7 +9,7 @@ export default async function Handler(req: Request) {
   isCold = false;
 
   try {
-    html = renderToString(<RoutLayout />);
+    html = renderToString(<RootLayout />);
   } catch (err) {
     console.error('Render error:', err.stack);
     return new Response(
