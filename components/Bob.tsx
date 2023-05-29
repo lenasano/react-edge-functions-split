@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { sayHello } from '../api/helloBob.js';
 
+export const config = { runtime: "edge" };
+
 export default function Page() {
     const [person, setPerson] = useState('Alice');
     const [hello, setHello] = useState(null);
