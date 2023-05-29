@@ -6,6 +6,8 @@ export default function Page() {
     const city = 'New York'; // parsedCity === 'null' ? null : parsedCity;
     const ip = '127.0.0.1';    //(req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0];
 
+    const isCold = false;
+
   return (
     <html lang="en">
       <Head />
