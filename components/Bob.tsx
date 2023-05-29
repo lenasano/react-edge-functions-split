@@ -1,24 +1,6 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 //import { sayHello } from '../api/helloBob.js';
-import useSWR from "swr";
-
-const fetcher = async (url: string) => {
-
-    console.log(`fetching ${url} in Bob`);
-
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (res.status !== 200) {
-        throw new Error(data.message);
-    }
-
-    console.log(`returning ${data} in Bob`);
-
-    return data;
-};
+import { get as getSplitFlag } from '../api/split/flag';
 
 export default function Page() {
     const [person, setPerson] = useState('Alice');
@@ -26,14 +8,11 @@ export default function Page() {
 
     console.log("hello from Bob.tsx");
 
-    const { data, error } = useSWR(
-        () => ( `/api/split/flag` ),
-        fetcher
-    );
+    const data = getSplitFlag();
 
     console.log("done fetching... ?");
 
-    if (error) return <div>{error.message}</div>;
+    //if (error) return <div>{error.message}</div>;
 
     /* useEffect(() => {
         async function startFetching() {
