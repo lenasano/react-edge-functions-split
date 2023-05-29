@@ -1,4 +1,4 @@
-import Page from '../app/page';
+import RootLayout from '../app/layout';
 import { renderToString } from 'react-dom/server';
 
 let isCold = true;
@@ -9,7 +9,7 @@ export default async function Handler(req: Request) {
   isCold = false;
 
   try {
-    html = renderToString(<Page />);
+    html = renderToString(<RoutLayout />);
   } catch (err) {
     console.error('Render error:', err.stack);
     return new Response(

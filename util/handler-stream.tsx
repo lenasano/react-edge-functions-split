@@ -1,10 +1,10 @@
-import Page from '../app/page';
+import RootLayout from '../app/layout';
 import { renderToReadableStream } from 'react-dom/server';
 
 export default async function Handler(req: Request) {
   let didError = false;
 
-  const stream = await renderToReadableStream(<Page />, {
+  const stream = await renderToReadableStream(<RootLayout />, {
     onError(err: Error) {
       didError = true;
       console.error(err);
