@@ -4,12 +4,16 @@ import { sayHello } from '../api/helloBob.js';
 export default function Page() {
     const [person, setPerson] = useState('Alice');
     const [hello, setHello] = useState(null);
+
+    console.log("hello from Bob.tsx");
+
     useEffect(() => {
         async function startFetching() {
             setHello(null);
             const result = await sayHello(person);
             if (!ignore) {
                 setHello(result);
+                console.log(`set hello ${result}`)
             }
         }
 
