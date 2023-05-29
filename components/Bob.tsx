@@ -1,7 +1,16 @@
 import { useState, useEffect } from 'react';
 import { sayHello } from '../api/helloBob.js';
+import useSWR from "swr";
 
-export const config = { runtime: "edge" };
+const fetcher = async (url: string) => {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (res.status !== 200) {
+        throw new Error(data.message);
+    }
+    return data;
+};
 
 export default function Page() {
     const [person, setPerson] = useState('Alice');
@@ -9,7 +18,14 @@ export default function Page() {
 
     console.log("hello from Bob.tsx");
 
-    useEffect(() => {
+    const { data, error } = useSWR(
+        () => ( `/api/split/flag` ),
+        fetcher
+    );
+
+    if (error) return <div>{error.message}</div>;
+
+    /* useEffect(() => {
         async function startFetching() {
             setHello(null);
             const result = await sayHello(person);
@@ -24,7 +40,7 @@ export default function Page() {
         return () => {
             ignore = true;
         }
-    }, [person]);
+    }, [person]);*/
 
     return (
         <>
@@ -35,7 +51,7 @@ export default function Page() {
                 <option value="Bob">Bob</option>
                 <option value="Joe">Joe</option>
             </select>
-            <p>{hello ?? 'Loading...'}</p>
+            <p>{data ?? 'Loading...'}</p>
         </>
     );
 }
