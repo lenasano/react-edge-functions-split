@@ -14,7 +14,7 @@ export default async function handler(req) {
     // instantiate the SDK
     const factory = SplitFactory({
         core: {
-            authorizationKey: process.env.SPLIT_SDK_KEY_STNDALN,
+            authorizationKey: process.env.NEXT_PUBLIC_SPLIT_SDK_KEY_STNDALN,
             // key represents your internal user id, or the account id that
             // the user belongs to.
             // This could also be a cookie you generate for anonymous users
