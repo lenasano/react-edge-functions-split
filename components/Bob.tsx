@@ -1,20 +1,26 @@
 import { useState, useEffect } from 'react';
-import { sayHello } from '../api/helloBob.js';
+//import { sayHello } from '../api/helloBob.js';
 import useSWR from "swr";
 
 const fetcher = async (url: string) => {
+
+    console.log(`fetching ${url} in Bob`);
+
     const res = await fetch(url);
     const data = await res.json();
 
     if (res.status !== 200) {
         throw new Error(data.message);
     }
+
+    console.log(`returning ${data} in Bob`);
+
     return data;
 };
 
 export default function Page() {
     const [person, setPerson] = useState('Alice');
-    const [hello, setHello] = useState(null);
+    // const [hello, setHello] = useState(null);
 
     console.log("hello from Bob.tsx");
 
@@ -22,6 +28,8 @@ export default function Page() {
         () => ( `/api/split/flag` ),
         fetcher
     );
+
+    console.log("done fetching... ?");
 
     if (error) return <div>{error.message}</div>;
 
