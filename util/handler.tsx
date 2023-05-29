@@ -1,4 +1,4 @@
-import App from '../src/app';
+import Page from '../app/page';
 import { renderToString } from 'react-dom/server';
 
 let isCold = true;
@@ -9,7 +9,7 @@ export default async function Handler(req: Request) {
   isCold = false;
 
   try {
-    html = renderToString(<App req={req} isCold={wasCold} />);
+    html = renderToString(<Page />);
   } catch (err) {
     console.error('Render error:', err.stack);
     return new Response(
@@ -31,3 +31,4 @@ export default async function Handler(req: Request) {
     },
   });
 }
+//<App req={req} isCold={wasCold} />

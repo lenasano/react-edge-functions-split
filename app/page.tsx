@@ -1,10 +1,10 @@
 import Bob from '../components/Bob'
 
-export default function App({ req, isCold }) {
-  const parsedCity = decodeURIComponent(req.headers.get('x-vercel-ip-city'));
-  // from vercel we get the string `null` when it can't decode the IP
-  const city = parsedCity === 'null' ? null : parsedCity;
-  const ip = (req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0];
+export default function Page() {
+    //const parsedCity = decodeURIComponent(req.headers.get('x-vercel-ip-city'));
+    // from vercel we get the string `null` when it can't decode the IP
+    const city = 'New York'; // parsedCity === 'null' ? null : parsedCity;
+    const ip = '127.0.0.1';    //(req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0];
 
   return (
     <html lang="en">

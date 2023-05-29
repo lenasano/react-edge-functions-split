@@ -1,10 +1,10 @@
-import App from '../src/app';
+import Page from '../app/page';
 import { renderToReadableStream } from 'react-dom/server';
 
 export default async function Handler(req: Request) {
   let didError = false;
 
-  const stream = await renderToReadableStream(<App req={req} />, {
+  const stream = await renderToReadableStream(<Page />, {
     onError(err: Error) {
       didError = true;
       console.error(err);
@@ -16,3 +16,4 @@ export default async function Handler(req: Request) {
     headers: { 'Content-Type': 'text/html' },
   });
 }
+// <App req={req} />
