@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 //import { sayHello } from '../api/helloBob.js';
 import useSWR from "swr";
