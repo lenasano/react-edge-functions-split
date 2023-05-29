@@ -8,7 +8,7 @@ export default function Page() {
     console.log("hello from Bob.tsx");
 
     let data: string;
-    getSplitFlag().then(res => data = res);
+    //getSplitFlag().then(res => data = res);
 
     console.log("done fetching... ?");
 

@@ -15,7 +15,7 @@ export async function get(): Promise<string> {
     // instantiate the SDK
     const factory = SplitFactory({
         core: {
-            authorizationKey: process.env.NEXT_PUBLIC_SPLIT_SDK_KEY_STNDALN,
+            authorizationKey: process.env.SPLIT_SDK_KEY_STNDALN,
             // key represents your internal user id, or the account id that
             // the user belongs to.
             // This could also be a cookie you generate for anonymous users
@@ -37,7 +37,9 @@ export async function get(): Promise<string> {
 
     console.log(`split result is ${treatment}`)
 
-    client.destroy()
+    client.destroy().then(() =>
+        console.log('api/standalone/split/flag : client.destroy() completed')
+    );
 
     return treatment;
 }
