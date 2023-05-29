@@ -1,10 +1,26 @@
-import Bob from '../components/Bob'
+﻿import Bob from '../components/Bob'
+
+import React from "react";
+import useSWR from "swr";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
 
 export default function App({ req, isCold }) {
   const parsedCity = decodeURIComponent(req.headers.get('x-vercel-ip-city'));
   // from vercel we get the string `null` when it can't decode the IP
   const city = parsedCity === 'null' ? null : parsedCity;
   const ip = (req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0];
+
+
+    const { data, error, isLoading } = useSWR(
+        "https://api.github.com/repos/vercel/swr",
+        fetcher
+    );
+
+    if (error) return "An error has occurred.";
+    if (isLoading) return "Loading...";
+
 
   return (
     <html lang="en">
@@ -17,7 +33,16 @@ export default function App({ req, isCold }) {
             <h1>
               <span>Hello from the edge!</span>
             </h1>
-            <Bob />
+
+            <div>
+                <h1>{data.name}</h1>
+                <p>{data.description}</p>
+                <strong>👁 {data.subscribers_count}</strong>{" "}
+                <strong>✨ {data.stargazers_count}</strong>{" "}
+                <strong>🍴 {data.forks_count}</strong>
+            </div>
+
+
             <div class="info">
               <div class="block">
                 <div class="contents">
