@@ -10,7 +10,7 @@ const FEATURE_FLAG_NAME = 'test_split';
 export const config = { runtime: "edge" };
 
 
-export async function get(): string {
+export async function get(): Promise<string> {
 
     // instantiate the SDK
     const factory = SplitFactory({
