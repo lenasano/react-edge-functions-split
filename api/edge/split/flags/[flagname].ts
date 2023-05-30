@@ -2,24 +2,20 @@ import { SplitFactory, PluggableStorage, ErrorLogger } from '@splitsoftware/spli
 import { EdgeConfigWrapper } from '@splitsoftware/vercel-integration-utils';
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-// Request example: https://<HOST>/api/get-treatment?userKey=<USER_KEY>
+// Request example: https://<HOST>/api/edge/split/flag/{flagname}
 
-// @REPLACE with the feature flag name you want to evaluate
-const FEATURE_FLAG_NAME = 'test_split';
 
 // Run API route as an Edge function rather than a Serverless one, because the SDK uses Fetch API to flush data, which is available in Edge runtime but not in Serverless.
 export const config = { runtime: "edge" };
 
-export default async function handler(req) {
-    // Extract user key from request query param
-    const { searchParams } = new URL(req.url);
-    const userKey = searchParams.get('userKey');
+
+export async function get(flagname: string): Promise<string> {
 
     /** @type {SplitIO.IAsyncClient} */
-    const client = SplitFactory({
+    const factory = SplitFactory({
         core: {
             authorizationKey: process.env.SPLIT_SDK_KEY_EDGE,
-            key: userKey
+            key: 'doesnt_matter_getting_default_treatment'
         },
         mode: 'consumer_partial',
         storage: PluggableStorage({
@@ -30,17 +26,30 @@ export default async function handler(req) {
         }),
         // Disable or keep only ERROR log level in production, to minimize performance impact
         debug: ErrorLogger(),
-    }).client();
+    });
+    
+    const client = factory.client();
 
     // Wait to load feature flag definitions from the Edge Config
     await client.ready();
 
-    const treatment = await client.getTreatment("first_split");
+    const treatment = await client.getTreatment( flagname );
 
     // Flush impressions asynchronously. Avoid 'await' in order to not delay the response.
     client.destroy().then( () =>
-        console.log('api/edge/split/flag : client.destroy() completed')
+        console.log('api/edge/split/flags/{flagname} : client.destroy() completed')
     );
+
+    return treatment;
+}
+
+
+export default async function handler(req) {
+
+    // Extract Split feature flag name from request url
+    const { flagname } = req.query;
+
+    const treatment = await get(flagname);
 
     return new Response(JSON.stringify({ treatment }), {
         status: 200,

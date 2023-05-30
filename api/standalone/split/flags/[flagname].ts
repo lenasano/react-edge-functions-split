@@ -1,16 +1,14 @@
 import { SplitFactory } from '@splitsoftware/splitio-browserjs';
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-// Request example: https://<HOST>/api/get-treatment?userKey=<USER_KEY>
+// Request example: https://<HOST>/api/edge/split/flag/{flagname}
 
-// @REPLACE with the feature flag name you want to evaluate
-const FEATURE_FLAG_NAME = 'test_split';
 
 // Run API route as an Edge function rather than a Serverless one, because the SDK uses Fetch API to flush data, which is available in Edge runtime but not in Serverless.
 export const config = { runtime: "edge" };
 
 
-export async function get(): Promise<string> {
+export async function get(flagname: string): Promise<string> {
 
     // instantiate the SDK
     const factory = SplitFactory({
@@ -33,12 +31,12 @@ export async function get(): Promise<string> {
 
     console.log("split is ready")
 
-    const treatment = await client.getTreatment("first_split")
+    const treatment = await client.getTreatment( flagname )
 
     console.log(`split result is ${treatment}`)
 
     client.destroy().then(() =>
-        console.log('api/standalone/split/flag : client.destroy() completed')
+        console.log('api/standalone/split/flags/{flagname} : client.destroy() completed')
     );
 
     return treatment;
@@ -46,7 +44,10 @@ export async function get(): Promise<string> {
 
 export default async function handler(req) {
 
-    const treatment = await get()
+    // Extract Split feature flag name from request url
+    const { flagname } = req.query;
+
+    const treatment = await get( flagname );
 
     return new Response(JSON.stringify({ treatment }), {
         status: 200,
