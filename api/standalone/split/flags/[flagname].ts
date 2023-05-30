@@ -1,3 +1,4 @@
+import type { NextFetchEvent, NextRequest } from "next/server";
 import { SplitFactory } from '@splitsoftware/splitio-browserjs';
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
@@ -7,6 +8,8 @@ import { SplitFactory } from '@splitsoftware/splitio-browserjs';
 // Run API route as an Edge function rather than a Serverless one, because the SDK uses Fetch API to flush data, which is available in Edge runtime but not in Serverless.
 export const config = { runtime: "edge" };
 
+let ne: NextFetchEvent = null;
+
 
 export async function get(flagname: string): Promise<string> {
 
@@ -14,10 +17,7 @@ export async function get(flagname: string): Promise<string> {
     const factory = SplitFactory({
         core: {
             authorizationKey: process.env.SPLIT_SDK_KEY_STNDALN,
-            // key represents your internal user id, or the account id that
-            // the user belongs to.
-            // This could also be a cookie you generate for anonymous users
-            key: 'doesnt_matter_getting_default_treatment'
+            key: 'user_id_doesnt_matter_getting_default_treatment'
         },
         debug: "INFO"
     })
@@ -35,14 +35,14 @@ export async function get(flagname: string): Promise<string> {
 
     console.log(`split result is ${treatment}`)
 
-    client.destroy().then(() =>
-        console.log('api/standalone/split/flags/{flagname} : client.destroy() completed')
-    );
+    ne !== null ? ne.waitUntil(client.destroy()) : await client.destroy();
 
     return treatment;
 }
 
-export default async function handler(req) {
+export default async function handler(req: NextRequest, event: NextFetchEvent) {
+
+    ne = event;
 
     // Extract Split feature flag name from request url
     const { flagname } = req.query;
