@@ -1,4 +1,4 @@
-import Bob from '../components/Bob'
+//import Split from '../components/Split'
 
 export default function App({ req, isCold }) {
   const parsedCity = decodeURIComponent(req.headers.get('x-vercel-ip-city'));
