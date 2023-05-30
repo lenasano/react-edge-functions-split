@@ -17,7 +17,7 @@ export default function App({ req, isCold }) {
             <h1>
               <span>Hello from the edge!</span>
             </h1>
-            <Bob />
+
             <div class="info">
               <div class="block">
                 <div class="contents">

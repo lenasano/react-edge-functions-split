@@ -1,7 +1,7 @@
 import type { NextFetchEvent, NextRequest } from "next/server";
 
 import { SplitFactory, PluggableStorage } from '@splitsoftware/splitio-browserjs';
-import { EdgeConfigWrapper } from '@splitsoftware/vercel-integration-utils';
+//import { EdgeConfigWrapper } from '@splitsoftware/vercel-integration-utils';
 
 import { Timer, createTimer } from "util/utils"
 
@@ -16,8 +16,8 @@ let ne: NextFetchEvent = null;
 
 
 export async function get(flagname: string, timer?: Timer): Promise<string> {
-
-    /** @type {SplitIO.IAsyncClient} */
+    /*
+    /** @type {SplitIO.IAsyncClient} * /
     const factory = SplitFactory({
         core: {
             authorizationKey: process.env.SPLIT_SDK_KEY_EDGE,
@@ -36,12 +36,12 @@ export async function get(flagname: string, timer?: Timer): Promise<string> {
     await client.ready();
 
     const treatment = await client.getTreatment(flagname);
-
+    */
     if( timer ) timer.stop()
-
+    /*
     ne !== null ? ne.waitUntil( client.destroy() ) : await client.destroy();
-
-    return treatment;
+    
+    return treatment;*/ return Promise.resolve( "{'hi' : 'hello'}" );
 }
 
 
