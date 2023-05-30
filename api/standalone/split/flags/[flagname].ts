@@ -1,6 +1,8 @@
 import type { NextFetchEvent, NextRequest } from "next/server";
 import { SplitFactory } from '@splitsoftware/splitio-browserjs';
 
+import { Timer, createTimer } from "util/utils"
+
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 // Request example: https://<HOST>/api/edge/split/flag/{flagname}
 
@@ -11,7 +13,7 @@ export const config = { runtime: "edge" };
 let ne: NextFetchEvent = null;
 
 
-export async function get(flagname: string): Promise<string> {
+export async function get(flagname: string, timer?: Timer): Promise<string> {
 
     // instantiate the SDK
     const factory = SplitFactory({
@@ -44,10 +46,14 @@ export default async function handler(req: NextRequest, event: NextFetchEvent) {
 
     ne = event;
 
-    // Extract Split feature flag name from request url
+    // extract Split feature flag name from request url
     const { flagname } = req.query;
 
-    const treatment = await get( flagname );
+    let stopwatch: Timer = createTimer();
+
+    const treatment = await get(flagname, stopwatch);
+
+    ne = null;
 
     return new Response(JSON.stringify({ treatment }), {
         status: 200,
