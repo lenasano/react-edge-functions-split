@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@splitsoftware/splitio-browserjs": "^0.9.5",
-    "next-server": "^9.0.5",
-    "swr": "^2.1.5"
+    "next-server": "^9.0.5"
   }
 }
