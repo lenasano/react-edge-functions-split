@@ -35,7 +35,7 @@ export async function get(flagname: string, timer?: Timer): Promise<string> {
 
     const treatment = await client.getTreatment( flagname )
 
-    if (timer) timer.stop();
+    if (timer) console.log( `time is ${timer.stop()}` );
 
     console.log(`split result is ${treatment}`)
 
