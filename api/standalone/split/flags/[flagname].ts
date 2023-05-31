@@ -35,6 +35,8 @@ export async function get(flagname: string, timer?: Timer): Promise<string> {
 
     const treatment = await client.getTreatment( flagname )
 
+    if (timer) timer.stop();
+
     console.log(`split result is ${treatment}`)
 
     ne !== null ? ne.waitUntil(client.destroy()) : await client.destroy();
