@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<{
     const flagResult = await getSplitFlag("first_split", stopwatch);
 
     const splitString = JSON.stringify({ flagResult, duration: stopwatch.duration() });
-    const split = JSON.parse( splitString );
+    const split = "{ 'treatment': 'ok', duration: 0 }" // JSON.parse( splitString );
 
     console.log("returning from server-side props")
     return { props: { split } };
