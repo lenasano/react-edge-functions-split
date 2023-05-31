@@ -14,10 +14,10 @@ export const getServerSideProps: GetServerSideProps<{
 
     let stopwatch: Timer = createTimer();
 
-    const split = await getSplitFlag("first_split", stopwatch);
+    const flagResult = await getSplitFlag("first_split", stopwatch);
 
-    console.log(`split when pre-rendered is ${split}`);
-    console.log(`split with json is ${ JSON.stringify({ split, duration: stopwatch.duration() }) }`);
+    const splitString = JSON.stringify({ flagResult, duration: stopwatch.duration() });
+    const split = JSON.parse( splitString ); // needed?
 
     return { props: { split } };
 };
@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps<{
 export default function Page({
     split,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-    return <p>split</p>;
+    return <p>split.treatment</p>;
 }
 
 /*
