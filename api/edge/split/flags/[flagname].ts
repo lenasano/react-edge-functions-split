@@ -50,10 +50,8 @@ export default async function handler(req: NextRequest, event: NextFetchEvent) {
     ne = event;
 
     // extract Split feature flag name from request url
-    const pattern = new URLPattern({ pathname: "/api/edge/split/flags/:flagname" });
-    const flagname = pattern.exec(req.nextUrl).pathname.groups.flagname;
-
-    console.log(`flagname is ${flagname}`);
+    const { searchParams } = new URL(req.url);
+    const flagname = searchParams.get('flagname');
 
     let stopwatch: Timer = createTimer();
 

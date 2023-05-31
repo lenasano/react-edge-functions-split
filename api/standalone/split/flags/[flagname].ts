@@ -43,16 +43,12 @@ export async function get(flagname: string, timer?: Timer): Promise<string> {
 }
 
 export default async function handler(req: NextRequest, event: NextFetchEvent) {
-
+    
     ne = event;
 
     // extract Split feature flag name from request url
-    //const pattern = new URLPattern({ pathname: "/api/standalone/split/flags/:flagname" });
-    //const flagname = pattern.exec(req.nextUrl).pathname.groups.flagname;
     const { searchParams } = new URL(req.url);
     const flagname = searchParams.get('flagname');
-
-    console.log(`flagname is ${flagname}`);
 
     let stopwatch: Timer = createTimer();
 
