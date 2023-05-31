@@ -1,4 +1,4 @@
-//import Split from '../components/Split'
+import Split from '../components/Split'
 
 export default function App({ req, isCold }) {
   const parsedCity = decodeURIComponent(req.headers.get('x-vercel-ip-city'));
@@ -17,6 +17,8 @@ export default function App({ req, isCold }) {
             <h1>
               <span>Hello from the edge!</span>
             </h1>
+
+            <Split />
 
             <div class="info">
               <div class="block">
