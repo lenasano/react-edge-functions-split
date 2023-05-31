@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<{
 export default function Page({
     split,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-    return `split === null ? ${ split === null }`;
+    return `split is ${ split }`;
 }
 
 /*
