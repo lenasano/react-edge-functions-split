@@ -56,7 +56,7 @@ export default async function handler(req: NextRequest, event: NextFetchEvent) {
 
     ne = null;
 
-    return new Response(JSON.stringify({ treatment }), {
+    return new Response(JSON.stringify({ treatment, duration: stopwatch.duration }), {
         status: 200,
         headers: { 'content-type': 'application/json' }
     });
