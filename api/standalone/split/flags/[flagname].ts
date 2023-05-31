@@ -1,7 +1,7 @@
 import { NextRequest, NextFetchEvent, URLPattern } from "next/server";
 import { SplitFactory } from '@splitsoftware/splitio-browserjs';
 
-import { Timer, createTimer } from "../../../../util/utils"
+import { Timer, createTimer } from "util/utils"
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 // Request example: https://<HOST>/api/edge/split/flag/{flagname}
