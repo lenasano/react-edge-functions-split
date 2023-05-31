@@ -1,4 +1,4 @@
-import type { NextFetchEvent, NextRequest } from "next/server";
+import { NextRequest, NextFetchEvent, URLPattern } from "next/server";
 import { SplitFactory } from '@splitsoftware/splitio-browserjs';
 
 import { Timer, createTimer } from "../../../../util/utils"
@@ -47,7 +47,10 @@ export default async function handler(req: NextRequest, event: NextFetchEvent) {
     ne = event;
 
     // extract Split feature flag name from request url
-    const { flagname } = req.query;
+    const pattern = new URLPattern({ pathname: "/api/standalone/split/flags/:flagname" });
+    const flagname = pattern.exec(req.nextUrl).pathname.groups.flagname;
+
+    console.log(`flagname is ${flagname}`);
 
     let stopwatch: Timer = createTimer();
 
