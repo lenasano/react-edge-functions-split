@@ -35,13 +35,15 @@ export async function get(flagname: string, timer?: Timer): Promise<string> {
 
     const treatment = await client.getTreatment( flagname )
 
-    if (timer) console.log( `time is ${timer.stop()}` );
+    if (timer) console.log( `time is ${timer.stop()}` )
 
     console.log(`split result is ${treatment}`)
 
-    ne !== null ? ne.waitUntil(client.destroy()) : await client.destroy();
+    ne !== null ? ne.waitUntil(client.destroy()) : await client.destroy()
 
-    return treatment;
+    console.log(`duration is ${timer.duration()}`)
+
+    return treatment
 }
 
 export default async function handler(req: NextRequest, event: NextFetchEvent) {
@@ -58,9 +60,9 @@ export default async function handler(req: NextRequest, event: NextFetchEvent) {
 
     ne = null;
 
-    console.log(`response is ${JSON.stringify({ treatment })} and ${JSON.stringify({ duration: stopwatch.duration })}`);
+    console.log(`response is ${JSON.stringify({ treatment })} and ${JSON.stringify({ duration: stopwatch.duration() })}`);
 
-    return new Response(JSON.stringify({ treatment, duration: stopwatch.duration }), {
+    return new Response(JSON.stringify({ treatment, duration: stopwatch.duration() }), {
         status: 200,
         headers: { 'content-type': 'application/json' }
     });
