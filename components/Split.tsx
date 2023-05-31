@@ -16,6 +16,9 @@ export const getServerSideProps: GetServerSideProps<{
 
     const split = await getSplitFlag("first_split", stopwatch);
 
+    console.log(`split when pre-rendered is ${split}`);
+    console.log(`split with json is ${ JSON.stringify({ split, duration: stopwatch.duration() }) }`);
+
     return { props: { split } };
 };
 
