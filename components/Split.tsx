@@ -1,7 +1,31 @@
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+
 import { get as getSplitFlag } from '../api/standalone/split/flags/[flagname]';
+import { Timer, createTimer } from "../util/utils"
 
-//export const config = { runtime: "edge" };
+type SplitResponse = {
+    treatment: string;
+    duration: number;
+};
 
+export const getServerSideProps: GetServerSideProps<{
+    split: SplitResponse;
+}> = async () => {
+
+    let stopwatch: Timer = createTimer();
+
+    const split = await getSplitFlag("first_split", stopwatch);
+
+    return { props: { split } };
+};
+
+export default function Page({
+    split,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    return <p>split</p>;
+}
+
+/*
 export default function Page() {
 
     console.log("hello from Split.tsx");
@@ -13,7 +37,7 @@ export default function Page() {
 
     return (
         <>
-            <p>{data ?? 'Loading...'}</p>
+            <p>{data ?? "Let's show the split info here..."}</p>
         </>
     );
-}
+}*/
