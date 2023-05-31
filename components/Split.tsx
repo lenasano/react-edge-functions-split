@@ -12,6 +12,8 @@ export const getServerSideProps: GetServerSideProps<{
     split: SplitResponse;
 }> = async () => {
 
+    console.log("server-side props");
+
     let stopwatch: Timer = createTimer();
 
     const flagResult = await getSplitFlag("first_split", stopwatch);
@@ -19,13 +21,14 @@ export const getServerSideProps: GetServerSideProps<{
     const splitString = JSON.stringify({ flagResult, duration: stopwatch.duration() });
     //const split = JSON.parse( splitString ); // needed?
 
+    console.log("returning from server-side props")
     return { props: { splitString } };
 };
 
 export default function Page({
     split,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-    return split.treatment;
+    return `split === null ? ${ split === null }`;
 }
 
 /*
