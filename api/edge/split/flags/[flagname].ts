@@ -3,7 +3,7 @@ import type { NextFetchEvent, NextRequest } from "next/server";
 import { SplitFactory, PluggableStorage } from '@splitsoftware/splitio-browserjs';
 //import { EdgeConfigWrapper } from '@splitsoftware/vercel-integration-utils';
 
-import { Timer, createTimer } from "util/utils"
+import { Timer, createTimer } from "../../../../util/utils"
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 // Request example: https://<HOST>/api/edge/split/flag/{flagname}

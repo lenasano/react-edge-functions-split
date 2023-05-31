@@ -3,3 +3,4 @@ export default async function handler(req) {
         status: 200,
         headers: { 'content-type': 'application/json' }
     });
+}
