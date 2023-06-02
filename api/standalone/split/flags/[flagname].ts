@@ -2,6 +2,7 @@ import { NextRequest, NextFetchEvent } from "next/server";
 import { SplitFactory } from '@splitsoftware/splitio-browserjs';
 
 import { Timer, createTimer } from "../../../../util/utils"
+import { getSplitFlag } from "../../../../func/split"
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 // Request example: https://<HOST>/api/edge/split/flag/{flagname}
@@ -12,7 +13,7 @@ export const config = { runtime: "experimental-edge" };
 
 let ne: NextFetchEvent = null;
 
-
+/*
 export async function get(flagname: string, timer?: Timer): Promise<string> {
 
     // instantiate the SDK
@@ -42,7 +43,7 @@ export async function get(flagname: string, timer?: Timer): Promise<string> {
     ne !== null ? ne.waitUntil(client.destroy()) : await client.destroy()
 
     return treatment
-}
+}*/
 
 export default async function handler(req: NextRequest, event: NextFetchEvent) {
     
@@ -54,7 +55,7 @@ export default async function handler(req: NextRequest, event: NextFetchEvent) {
 
     let stopwatch: Timer = createTimer();
 
-    const treatment = await get(flagname, stopwatch);
+    const treatment = await getSplitFlag(flagname, stopwatch);
 
     ne = null;
 
