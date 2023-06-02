@@ -1,4 +1,4 @@
-import { NextRequest, NextFetchEvent, URLPattern } from "next/server";
+import { NextRequest, NextFetchEvent } from "next/server";
 
 import { SplitFactory, PluggableStorage } from '@splitsoftware/splitio-browserjs';
 //import { EdgeConfigWrapper } from '@splitsoftware/vercel-integration-utils';

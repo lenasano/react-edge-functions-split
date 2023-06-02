@@ -1,12 +1,12 @@
 import App from '../src/app';
 import { renderToString } from 'react-dom/server';
 
-import { get as getSplitFlag } from '../api/standalone/split/flags/[flagname]';
+import { getSplitFlag } from '../func/split';
 import { Timer, createTimer } from "../util/utils" 
 
 let isCold = true;
 
-async function sneakySplit(): Promise<string> {
+async function ssrConsumeSplit(): Promise<string> {
     let stopwatch: Timer = createTimer();
 
     const flagResult = await getSplitFlag("first_split", stopwatch);
@@ -23,7 +23,7 @@ export default async function Handler(req: Request) {
   let html: string;
   isCold = false;
 
-  let split: string = await sneakySplit();
+    let split: string = await ssrConsumeSplit();
 
   try {
       html = renderToString(<App req={req} isCold={wasCold} s={split} />);
