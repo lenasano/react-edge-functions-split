@@ -18,7 +18,7 @@ export default function App({ req, isCold, splitInfo }) {
               <span>Hello from the edge!</span>
             </h1>
 
-            <p>{s}</p>
+            <p>{splitInfo}</p>
 
             <div class="info">
               <div class="block">
