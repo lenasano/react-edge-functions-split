@@ -13,37 +13,6 @@ export const config = { runtime: "experimental-edge" };
 
 let ne: NextFetchEvent = null;
 
-/*
-export async function get(flagname: string, timer?: Timer): Promise<string> {
-
-    // instantiate the SDK
-    const factory = SplitFactory({
-        core: {
-            authorizationKey: process.env.SPLIT_SDK_KEY_STNDALN,
-            key: 'user_id_doesnt_matter_getting_default_treatment'
-        },
-        debug: "INFO"
-    })
-
-    // and get the client instance
-    const client = factory.client()
-
-    console.log(`hello from split: ${client !== null}`)
-
-    await client.ready()
-
-    console.log("split is ready")
-
-    const treatment = await client.getTreatment( flagname )
-
-    if (timer) timer.stop()
-
-    console.log(`split result is ${treatment}`)
-
-    ne !== null ? ne.waitUntil(client.destroy()) : await client.destroy()
-
-    return treatment
-}*/
 
 export default async function handler(req: NextRequest, event: NextFetchEvent) {
     
@@ -55,7 +24,7 @@ export default async function handler(req: NextRequest, event: NextFetchEvent) {
 
     let stopwatch: Timer = createTimer();
 
-    const treatment = await getSplitFlag(flagname, stopwatch);
+    const treatment = await getSplitFlag(flagname, stopwatch); // todo: pass ne if it will be used (maybe not needed?)
 
     ne = null;
 
