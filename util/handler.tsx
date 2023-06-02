@@ -1,32 +1,19 @@
 import App from '../src/app';
 import { renderToString } from 'react-dom/server';
 
-import { getSplitFlag } from '../func/split';
-import { Timer, createTimer } from "../util/utils" 
+import { getFlagWithDuration } from '../func/split';
 
 let isCold = true;
-
-async function ssrConsumeSplit(): Promise<string> {
-    let stopwatch: Timer = createTimer();
-
-    const flagResult = await getSplitFlag("first_split", stopwatch);
-
-    const split : string = JSON.stringify({ flagResult, duration: stopwatch.duration() });
-    //const split = "{ 'treatment': 'ok', duration: 0 }" // JSON.parse( splitString );
-
-    console.log("returning from server-side props")
-    return split;
-}
 
 export default async function Handler(req: Request) {
   const wasCold = isCold;
   let html: string;
   isCold = false;
 
-    let split: string = await ssrConsumeSplit();
+    let split: string = await getFlagWithDuration("first_split");
 
   try {
-      html = renderToString(<App req={req} isCold={wasCold} s={split} />);
+      html = renderToString(<App req={req} isCold={wasCold} splitInfo={split} />);
   } catch (err) {
     console.error('Render error:', err.stack);
     return new Response(

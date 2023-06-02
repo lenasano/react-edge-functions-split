@@ -1,6 +1,6 @@
 import Split from '../components/Split'
 
-export default function App({ req, isCold, s }) {
+export default function App({ req, isCold, splitInfo }) {
   const parsedCity = decodeURIComponent(req.headers.get('x-vercel-ip-city'));
   // from vercel we get the string `null` when it can't decode the IP
   const city = parsedCity === 'null' ? null : parsedCity;

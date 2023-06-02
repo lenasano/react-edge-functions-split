@@ -1,4 +1,4 @@
-import { NextRequest, NextFetchEvent } from "next/server";
+import { NextFetchEvent } from "next/server";
 import { SplitFactory } from '@splitsoftware/splitio-browserjs';
 
 import { Timer, createTimer } from "../util/utils"
@@ -11,6 +11,20 @@ import { Timer, createTimer } from "../util/utils"
 export const config = { runtime: "experimental-edge" };
 
 let ne: NextFetchEvent = null;
+
+
+export async function getFlagWithDuration(flagname: string): Promise<string> {
+
+    let stopwatch: Timer = createTimer();
+
+    const flagResult = await getSplitFlag(flagname, stopwatch);
+
+    const split: string = JSON.stringify(
+        { flagResult, duration: stopwatch.duration() }
+    );
+
+    return split;
+}
 
 
 export async function getSplitFlag(flagname: string, timer?: Timer): Promise<string> {
