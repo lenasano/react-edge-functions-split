@@ -1,4 +1,3 @@
-import { NextFetchEvent } from "next/server";
 import { SplitFactory } from '@splitsoftware/splitio-browserjs';
 
 import { Timer, createTimer } from "../util/utils"
@@ -9,8 +8,6 @@ import { Timer, createTimer } from "../util/utils"
 
 // Run API route as an Edge function rather than a Serverless one, because the SDK uses Fetch API to flush data, which is available in Edge runtime but not in Serverless.
 export const config = { runtime: "experimental-edge" };
-
-let ne: NextFetchEvent = null;
 
 
 export async function getFlagWithDuration(flagname: string): Promise<string> {
@@ -53,7 +50,7 @@ export async function getSplitFlag(flagname: string, timer?: Timer): Promise<str
 
     console.log(`split result is ${treatment}`)
 
-    ne !== null ? ne.waitUntil(client.destroy()) : await client.destroy()
+    await client.destroy()
 
     return treatment
 }

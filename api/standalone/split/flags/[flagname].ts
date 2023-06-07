@@ -1,4 +1,4 @@
-import { NextRequest, NextFetchEvent } from "next/server";
+import { NextRequest } from "next/server";
 import { SplitFactory } from '@splitsoftware/splitio-browserjs';
 
 import { Timer, createTimer } from "../../../../util/utils"
@@ -11,12 +11,8 @@ import { getSplitFlag } from "../../../../func/split"
 // Run API route as an Edge function rather than a Serverless one, because the SDK uses Fetch API to flush data, which is available in Edge runtime but not in Serverless.
 export const config = { runtime: "experimental-edge" };
 
-let ne: NextFetchEvent = null;
 
-
-export default async function handler(req: NextRequest, event: NextFetchEvent) {
-    
-    ne = event;
+export default async function handler(req: NextRequest) {
 
     // extract Split feature flag name from request url
     const { searchParams } = new URL(req.url);
@@ -24,9 +20,7 @@ export default async function handler(req: NextRequest, event: NextFetchEvent) {
 
     let stopwatch: Timer = createTimer();
 
-    const treatment = await getSplitFlag(flagname, stopwatch); // todo: pass ne if it will be used (maybe not needed?)
-
-    ne = null;
+    const treatment = await getSplitFlag(flagname, stopwatch);
 
     return new Response(JSON.stringify({ treatment, duration: stopwatch.duration() }), {
         status: 200,
