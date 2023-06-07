@@ -1,4 +1,3 @@
-import Split from '../components/Split'
 
 export default function App({ req, isCold, splitInfo }) {
   const parsedCity = decodeURIComponent(req.headers.get('x-vercel-ip-city'));
