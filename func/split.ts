@@ -12,11 +12,29 @@ import { Timer, createTimer } from "../util/utils"
 export const config = { runtime: "experimental-edge" };
 
 
+export async function getFlagsWithDuration(flagname: string): Promise<string> {
+    return `${await getFlagWithDuration(flagname)} ${await getFlagWithDurationEdge(flagname)}`;
+}
+
+
 export async function getFlagWithDuration(flagname: string): Promise<string> {
 
     let stopwatch: Timer = createTimer();
 
     const flagResult = await getSplitFlag(flagname, stopwatch);
+
+    const split: string = JSON.stringify(
+        { flagResult, duration: stopwatch.duration() }
+    );
+
+    return split;
+}
+
+export async function getFlagWithDurationEdge(flagname: string): Promise<string> {  // todo: pass function as pointer
+
+    let stopwatch: Timer = createTimer();
+
+    const flagResult = await getSplitFlagEdge(flagname, stopwatch);
 
     const split: string = JSON.stringify(
         { flagResult, duration: stopwatch.duration() }

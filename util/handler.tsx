@@ -1,7 +1,7 @@
 import App from '../src/app';
 import { renderToString } from 'react-dom/server';
 
-import { getFlagWithDuration } from '../func/split';
+import { getFlagsWithDuration } from '../func/split';
 
 let isCold = true;
 
@@ -10,7 +10,7 @@ export default async function Handler(req: Request) {
   let html: string;
   isCold = false;
 
-    let split: string = await getFlagWithDuration("first_split");
+    let split: string = await getFlagsWithDuration("first_split");
 
   try {
       html = renderToString(<App req={req} isCold={wasCold} splitInfo={split} />);
