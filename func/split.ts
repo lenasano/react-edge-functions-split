@@ -30,34 +30,6 @@ export async function getFlagWithDurationX(flagname: string, getFunction: (strin
     return split;
 }
 
-/*
-export async function getFlagWithDuration(flagname: string): Promise<string> {
-
-    let stopwatch: Timer = createTimer();
-
-    const flagResult = await getSplitFlag(flagname, stopwatch);
-
-    const split: string = JSON.stringify(
-        { flagResult, duration: stopwatch.duration() }
-    );
-
-    return split;
-}
-
-export async function getFlagWithDurationEdge(flagname: string): Promise<string> {
-
-    let stopwatch: Timer = createTimer();
-
-    const flagResult = await getSplitFlagEdge(flagname, stopwatch);
-
-    const split: string = JSON.stringify(
-        { flagResult, duration: stopwatch.duration() }
-    );
-
-    return split;
-}
-*/
-
 export async function getSplitFlag(flagname: string, timer?: Timer): Promise<string> {
 
     // This function retrieves Split payload from Split Cloud, thus incurring request/response travel time.
