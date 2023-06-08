@@ -13,10 +13,24 @@ export const config = { runtime: "experimental-edge" };
 
 
 export async function getFlagsWithDuration(flagname: string): Promise<string> {
-    return `${await getFlagWithDuration(flagname)} ${await getFlagWithDurationEdge(flagname)}`;
+    return await getFlagWithDurationX(flagname, getSplitFlag); // `${await getFlagWithDurationX(flagname, getSplitFlag)} ${await getFlagWithDurationX(flagname, getSplitFlagEdge)}`;
 }
 
 
+export async function getFlagWithDurationX(flagname: string, getFunction: (string, Timer) => Promise<string>): Promise<string> {
+
+    let stopwatch: Timer = createTimer();
+
+    const flagResult = await getFunction(flagname, stopwatch);
+
+    const split: string = JSON.stringify(
+        { flagResult, duration: stopwatch.duration() }
+    );
+
+    return split;
+}
+
+/*
 export async function getFlagWithDuration(flagname: string): Promise<string> {
 
     let stopwatch: Timer = createTimer();
@@ -30,7 +44,7 @@ export async function getFlagWithDuration(flagname: string): Promise<string> {
     return split;
 }
 
-export async function getFlagWithDurationEdge(flagname: string): Promise<string> {  // todo: pass function as pointer
+export async function getFlagWithDurationEdge(flagname: string): Promise<string> {
 
     let stopwatch: Timer = createTimer();
 
@@ -42,7 +56,7 @@ export async function getFlagWithDurationEdge(flagname: string): Promise<string>
 
     return split;
 }
-
+*/
 
 export async function getSplitFlag(flagname: string, timer?: Timer): Promise<string> {
 
