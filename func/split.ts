@@ -42,17 +42,11 @@ export async function getSplitFlag(flagname: string, timer?: Timer): Promise<str
     // and get the client instance
     const client = factory.client()
 
-    console.log(`hello from split: ${client !== null}`)
-
     await client.ready()
-
-    console.log("split is ready")
 
     const treatment = await client.getTreatment(flagname)
 
     if (timer) timer.stop()
-
-    console.log(`split result is ${treatment}`)
 
     await client.destroy()
 
@@ -61,6 +55,8 @@ export async function getSplitFlag(flagname: string, timer?: Timer): Promise<str
 
 
 export async function getSplitFlagEdge(flagname: string, timer?: Timer): Promise<string> {
+
+    console.log(`hey friends! config key is ${process.env.EDGE_CONFIG_ITEM_KEY}`);
 
     // This function retrieves Split payload from Vercel's Edge Config.
     // It is based on the example: https://github.com/splitio/vercel-integration-utils/blob/main/example/pages/api/get-treatment.js
@@ -77,7 +73,8 @@ export async function getSplitFlagEdge(flagname: string, timer?: Timer): Promise
                 // The Edge Config item where Split stores feature flag definitions, specified in the Split integration step
                 edgeConfigKey: process.env.EDGE_CONFIG_ITEM_KEY
             })
-        })
+        }),
+        debug: 'INFO'
     });
     const client = factory.client();
 
