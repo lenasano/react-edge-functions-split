@@ -1,5 +1,4 @@
 import { NextRequest } from "next/server";
-import { SplitFactory } from '@splitsoftware/splitio-browserjs';
 
 import { Timer, createTimer } from "../../../../util/utils"
 import { getSplitFlag } from "../../../../func/split"
@@ -9,7 +8,7 @@ import { getSplitFlag } from "../../../../func/split"
 
 
 // Run API route as an Edge function rather than a Serverless one, because the SDK uses Fetch API to flush data, which is available in Edge runtime but not in Serverless.
-export const config = { runtime: "experimental-edge" };
+export const config = { runtime: "experimental-edge" };     // todo: change to edge (not experimental)
 
 
 export default async function handler(req: NextRequest) {

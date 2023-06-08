@@ -1,4 +1,6 @@
-import { SplitFactory } from '@splitsoftware/splitio-browserjs';
+import { SplitFactory, PluggableStorage, ErrorLogger } from '@splitsoftware/splitio-browserjs';
+import { EdgeConfigWrapper } from '@splitsoftware/vercel-integration-utils';
+ 
 
 import { Timer, createTimer } from "../util/utils"
 
@@ -26,6 +28,9 @@ export async function getFlagWithDuration(flagname: string): Promise<string> {
 
 export async function getSplitFlag(flagname: string, timer?: Timer): Promise<string> {
 
+    // This function retrieves Split payload from Split Cloud, thus incurring request/response travel time.
+    // It is based on the docs: https://help.split.io/hc/en-us/articles/360058730852-Browser-SDK
+
     // instantiate the SDK
     const factory = SplitFactory({
         core: {
@@ -34,7 +39,6 @@ export async function getSplitFlag(flagname: string, timer?: Timer): Promise<str
         },
         debug: "INFO"
     })
-
     // and get the client instance
     const client = factory.client()
 
@@ -53,4 +57,37 @@ export async function getSplitFlag(flagname: string, timer?: Timer): Promise<str
     await client.destroy()
 
     return treatment
+}
+
+
+export async function getSplitFlagEdge(flagname: string, timer?: Timer): Promise<string> {
+
+    // This function retrieves Split payload from Vercel's Edge Config.
+    // It is based on the example: https://github.com/splitio/vercel-integration-utils/blob/main/example/pages/api/get-treatment.js
+
+    /** @type {SplitIO.IAsyncClient} */
+    const factory = SplitFactory({
+        core: {
+            authorizationKey: process.env.SPLIT_SDK_KEY_EDGE,   // Vercel environment variable is available only on the server (missing the 'NEXT_PUBLIC_' prefix)
+            key: 'user_id_doesnt_matter_getting_default_treatment'
+        },
+        mode: 'consumer_partial',
+        storage: PluggableStorage({
+            wrapper: EdgeConfigWrapper({
+                // The Edge Config item where Split stores feature flag definitions, specified in the Split integration step
+                edgeConfigKey: process.env.EDGE_CONFIG_ITEM_KEY
+            })
+        })
+    });
+    const client = factory.client();
+
+    await client.ready();
+
+    const treatment = await client.getTreatment(flagname);
+    
+    if (timer) timer.stop()
+
+    await client.destroy();
+    
+    return treatment;
 }
