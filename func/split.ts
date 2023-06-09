@@ -25,7 +25,7 @@ export async function getFlagWithDurationX(flagname: string, getFunction: (strin
 
     const split: string = JSON.stringify(
         { flagResult, duration: stopwatch.duration() }
-    );
+    ); // remove this comment anytime
 
     return split;
 }
