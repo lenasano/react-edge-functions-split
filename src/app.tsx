@@ -1,3 +1,4 @@
+import { SplitInfo } from '../func/split';
 
 export default function App({ req, isCold, splitInfo }) {
   const parsedCity = decodeURIComponent(req.headers.get('x-vercel-ip-city'));
@@ -17,7 +18,11 @@ export default function App({ req, isCold, splitInfo }) {
               <span>Hello from the edge!</span>
             </h1>
 
-            <p>{splitInfo}</p>
+            <div>
+              {splitInfo.map((p, i) => (
+                  <SplitInfo key={i} {...p} />
+              ))}
+            </div>
 
             <div class="info">
               <div class="block">
@@ -53,6 +58,10 @@ export default function App({ req, isCold, splitInfo }) {
       </body>
     </html>
   );
+}
+
+function SplitInfo( s ) {
+    return s;
 }
 
 function Head() {
