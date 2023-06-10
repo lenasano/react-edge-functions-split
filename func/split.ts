@@ -13,7 +13,7 @@ export const config = { runtime: "edge" };
 
 
 export async function getFlagsWithDuration(flagname: string): Promise<string> {
-    return `[ { 'p': "Split from the cloud", 'content': ${await getFlagWithDuration(flagname, getSplitFlag)} }, { 'p': "Split at the Edge", 'content': ${await getFlagWithDuration(flagname, getSplitFlagEdge)} } ]`;
+    return `[ { "p": "Split from the cloud", "content": ${await getFlagWithDuration(flagname, getSplitFlag)} }, { "p": "Split at the Edge", "content": ${await getFlagWithDuration(flagname, getSplitFlagEdge)} } ]`;
 }
 
 async function getFlagWithDuration(flagname: string, getFunction: (string, Timer) => Promise<string>): Promise<string> {
