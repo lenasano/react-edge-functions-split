@@ -17,7 +17,7 @@ export default function App({ req, isCold, splitInfo }) {
             </h1>
 
             <div>
-              {splitInfo.map((p, i) => (
+              {JSON.parse(splitInfo).map((p, i) => (
                   <SplitInfo key={i} {...p} />
               ))}
             </div>
