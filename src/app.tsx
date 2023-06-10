@@ -1,5 +1,3 @@
-import { SplitInfo } from '../func/split';
-
 export default function App({ req, isCold, splitInfo }) {
   const parsedCity = decodeURIComponent(req.headers.get('x-vercel-ip-city'));
   // from vercel we get the string `null` when it can't decode the IP
@@ -60,8 +58,8 @@ export default function App({ req, isCold, splitInfo }) {
   );
 }
 
-function SplitInfo( s ) {
-    return s;
+function SplitInfo({ p, content }) {
+    return <p><b>{p}</b>: {JSON.stringify(content)}</p>;
 }
 
 function Head() {
