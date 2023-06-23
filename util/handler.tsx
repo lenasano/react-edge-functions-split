@@ -1,7 +1,7 @@
 import App from '../src/app';
 import { renderToString } from 'react-dom/server';
 
-import { getFlagsWithDuration } from '../func/split';
+import { getFlagsWithDuration } from '../src/func/split';
 
 let isCold = true;
 

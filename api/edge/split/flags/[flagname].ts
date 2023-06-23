@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 
 import { Timer, createTimer } from "../../../../util/utils"
-import { getSplitFlagEdge } from "../../../../func/split"
+import { getSplitFlagEdge } from "../../../../src/func/split"
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 // Request example: https://<HOST>/api/edge/split/flag/{flagname}
