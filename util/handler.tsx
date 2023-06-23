@@ -10,10 +10,11 @@ export default async function Handler(req: Request) {
   let html: string;
   isCold = false;
 
-    let split: string = await getFlagsWithDuration("first_split");
+  // During SSR (a.k.a. "SPR" using Vercel's "server pre-rendering") we consume Split feature flags ...
+  let split: string = await getFlagsWithDuration("first_split");
 
   try {
-      html = renderToString(<App req={req} isCold={wasCold} splitInfo={split} />);
+      html = renderToString(<App req={req} isCold={wasCold} splitInfo={split} />); // ... and pass the results to the 'App' React component for rendering.
   } catch (err) {
     console.error('Render error:', err.stack);
     return new Response(

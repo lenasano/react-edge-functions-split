@@ -7,8 +7,8 @@ import { getSplitFlag } from "../../../../src/func/split"
 // Request example: https://<HOST>/api/edge/split/flag/{flagname}
 
 
-// Run API route as an Edge function rather than a Serverless one, because the SDK uses Fetch API to flush data, which is available in Edge runtime but not in Serverless.
-export const config = { runtime: "experimental-edge" };     // todo: change to edge (not experimental)
+// Run this API route as an Edge function rather than a Serverless one, because the SDK uses Fetch API to flush data, which is available in Edge runtime but not in Serverless.
+export const config = { runtime: "edge" };
 
 
 export default async function handler(req: NextRequest) {
