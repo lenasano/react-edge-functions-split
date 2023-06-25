@@ -1,4 +1,4 @@
-export default function App({ req, isCold }) {
+export default function App({ req, isCold, splitInfo }) {
   const parsedCity = decodeURIComponent(req.headers.get('x-vercel-ip-city'));
   // from vercel we get the string `null` when it can't decode the IP
   const city = parsedCity === 'null' ? null : parsedCity;
@@ -15,6 +15,12 @@ export default function App({ req, isCold }) {
             <h1>
               <span>Hello from the edge!</span>
             </h1>
+
+            <div>
+              {JSON.parse(splitInfo).map((p, i) => (
+                  <SplitInfo key={i} {...p} />
+              ))}
+            </div>
 
             <div class="info">
               <div class="block">
@@ -50,6 +56,10 @@ export default function App({ req, isCold }) {
       </body>
     </html>
   );
+}
+
+function SplitInfo({ p, content }) {
+    return <p><b>{p}</b>: {JSON.stringify(content)}</p>;
 }
 
 function Head() {
