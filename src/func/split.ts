@@ -58,7 +58,7 @@ export async function getSplitFlagEdge(flagname: string, timer?: Timer): Promise
 
     // This function retrieves the Split payload (roll-out plan) from Vercel Edge Config.
     // It is based on the example: https://github.com/splitio/vercel-integration-utils/blob/main/example/pages/api/get-treatment.js
-
+    console.log(`item key is ${process.env.EDGE_CONFIG_ITEM_KEY}`);
     /** @type {SplitIO.IAsyncClient} */
     const factory = SplitFactory({
         core: {
@@ -68,8 +68,8 @@ export async function getSplitFlagEdge(flagname: string, timer?: Timer): Promise
         mode: 'consumer_partial',
         storage: PluggableStorage({
             wrapper: EdgeConfigWrapper({
-                edgeConfigKey: process.env.EDGE_CONFIG_ITEM_KEY // The name of the json-tree in the Edge Config where the Split roll-out plan is stored (for a specific Split environment). 
-                                                                // This value is provided to you during the Vercel Split Integration setup.
+                edgeConfigItemKey: process.env.EDGE_CONFIG_ITEM_KEY // The name of the json-tree in the Edge Config where the Split roll-out plan is stored (for a specific Split environment). 
+                                                                    // This value is provided to you during the Vercel Split Integration setup.
             })
         }),
         debug: 'INFO'
