@@ -1,4 +1,4 @@
-# React on the Edge with Split
+# React at the Edge with Split
 
 [`sveltekit-on-the-edge`](https://sveltekit-on-the-edge.vercel.app/) but on top of React. It uses `esbuild` for bundling and [Vercel Edge Functions](https://vercel.com/edge) for SSR.
 
