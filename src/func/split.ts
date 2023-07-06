@@ -1,6 +1,7 @@
 import { SplitFactory, PluggableStorage, ErrorLogger } from '@splitsoftware/splitio-browserjs';
 import { EdgeConfigWrapper } from '@splitsoftware/vercel-integration-utils';
- 
+import * as EdgeConfigClient from '@vercel/edge-config';
+
 
 import { Timer, createTimer } from "../../util/utils"
 
@@ -68,8 +69,11 @@ export async function getSplitFlagEdge(flagname: string, timer?: Timer): Promise
         mode: 'consumer_partial',
         storage: PluggableStorage({
             wrapper: EdgeConfigWrapper({
-                edgeConfigItemKey: process.env.EDGE_CONFIG_ITEM_KEY // The name of the json-tree in the Edge Config where the Split roll-out plan is stored (for a specific Split environment). 
-                                                                    // This value is provided to you during the Vercel Split Integration setup.
+                // For a linked Split environment, the SDK can read the feature flag data cached in Edge Config.
+                // The item key can be copied from the Split Integration configuration page.
+                edgeConfigItemKey: process.env.EDGE_CONFIG_ITEM_KEY,
+                // The default client that reads from the Edge Config stored in process.env.EDGE_CONFIG.
+                edgeConfig: EdgeConfigClient
             })
         }),
         debug: 'INFO'
