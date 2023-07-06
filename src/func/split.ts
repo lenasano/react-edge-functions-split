@@ -62,7 +62,7 @@ export async function getSplitFlagEdge(flagname: string, timer?: Timer): Promise
     /** @type {SplitIO.IAsyncClient} */
     const factory = SplitFactory({
         core: {
-            authorizationKey: process.env.SPLIT_SDK_KEY_EDGE,   // Note that this the Vercel environment variable is available only on the server (since it is missing the 'NEXT_PUBLIC_' prefix).
+            authorizationKey: process.env.SPLIT_SDK_KEY_EDGE,       // Note that this the Vercel environment variable is available only on the server (since it is missing the 'NEXT_PUBLIC_' prefix).
             key: 'user_id_doesnt_matter_getting_default_treatment'
         },
         mode: 'consumer_partial',
